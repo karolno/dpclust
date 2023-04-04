@@ -6,7 +6,7 @@ log.f.of.y <- function(y1, n1, kappa1, x) {
   #x=1 and kappa=1 causes problems
   x[x>0.999 & kappa1==1] = 0.999
   #allow kappa = 0, for mutations on deleted chromosomes
-  if (class(kappa1) == 'numeric') {
+  if (length(kappa1) == 1 && class(kappa1) == 'numeric') {
     # Case input consists of vectors
     no.kappa.nonzero = length(which(kappa1!=0))
     no.subsamples = length(y1)
@@ -17,7 +17,7 @@ log.f.of.y <- function(y1, n1, kappa1, x) {
   }
   kappa1[kappa1==0] = NA
   res = lchoose(n1, y1) + y1 * log(kappa1*x) + (n1-y1) * log(1-kappa1*x)
-  if (class(res) == "numeric") { res = matrix(res, nrow=1) }
+  if (length(res) == 1 && class(res) == "numeric") { res = matrix(res, nrow=1) }
   resSums = rowSums(res,na.rm=T) * no.subsamples/no.kappa.nonzero
   return(resSums)
 }
